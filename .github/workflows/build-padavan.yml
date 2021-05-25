@@ -101,7 +101,7 @@ jobs:
           echo "CONFIG_FIRMWARE_INCLUDE_ALIDDNS=y" >> .config           #阿里DDNS
           echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNS=y" >> .config          #SmartDNS
           echo "CONFIG_FIRMWARE_INCLUDE_SMARTDNSBIN=y" >> .config       #smartdns二进制文件
-          echo "CONFIG_FIRMWARE_INCLUDE_V2RAY=y" >> .config             #集成v2ray执行文件（3.8M左右)，如果不集成，会从网上下载下来执行，不影响正常使用
+          echo "CONFIG_FIRMWARE_INCLUDE_V2RAY=n" >> .config             #集成v2ray执行文件（3.8M左右)，如果不集成，会从网上下载下来执行，不影响正常使用
           echo "CONFIG_FIRMWARE_INCLUDE_TROJAN=n" >> .config            #集成trojan执行文件(1.1M左右)，如果不集成，会从网上下载下来执行，不影响正常使用
           echo "CONFIG_FIRMWARE_INCLUDE_KOOLPROXY=n" >> .config         #KP广告过滤
           echo "CONFIG_FIRMWARE_INCLUDE_ADGUARDHOME=y" >> .config       #集成AdGuardHome
@@ -119,8 +119,6 @@ jobs:
         #echo "自定义项=y" >> .config
         sed -i '/CONFIG_FIRMWARE_INCLUDE_VLMCSD/d' .config              #配置KMS工具
         echo "CONFIG_FIRMWARE_INCLUDE_VLMCSD=y" >> .config
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_OPENSSH/d' .config             #配置OpenSSH
-        echo "CONFIG_FIRMWARE_INCLUDE_OPENSSH=y" >> .config
         sed -i '/CONFIG_FIRMWARE_ENABLE_IPV6/d' .config                 #配置IPV6
         echo "CONFIG_FIRMWARE_ENABLE_IPV6=y" >> .config
         #########################################################################################
