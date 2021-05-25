@@ -13,7 +13,6 @@ on:
   watch:
     types: [started]
 
-
 env:                          # 环境变量
   MHZ: 1000                   # CPU超频频率 必须为20的倍数。开启超频请修改124行超频选项
   TNAME: RM2100               # 配置文件名  https://github.com/hanwckf/rt-n56u/tree/master/trunk/configs/templates
@@ -46,10 +45,10 @@ jobs:
         cd /opt/rt-n56u/trunk
         echo "CPU超频到$MHZ"mhz
         echo "修改CPU频率"
-#        clock=`echo "obase=16 ; ibase=10 ; (((($MHZ/20)-1)*16+2))" | bc`
+        clock=`echo "obase=16 ; ibase=10 ; (((($MHZ/20)-1)*16+2))" | bc`
         echo "16进制$clock"
-#        sed -i "554,555s:0xff:0x7ff:g" /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/init.c
-#        sed -i "554,556s:0xc2:0x$clock:g" /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/init.c
+        sed -i "554,555s:0xff:0x7ff:g" /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/init.c
+        sed -i "554,556s:0xc2:0x$clock:g" /opt/rt-n56u/trunk/linux-3.4.x/arch/mips/rt2880/init.c
         if [ ! -f configs/templates/$TNAME.config ] ; then
         echo "configs/templates/$TNAME.config not found "
         exit 1
@@ -106,21 +105,13 @@ jobs:
         #格式如下：
         #sed -i '/自定义项/d' .config
         #echo "自定义项=y" >> .config
-        sed -i '/CONFIG_FIRMWARE_CPU_900MHZ/d' .config                  #配置超频
-        echo "CONFIG_FIRMWARE_CPU_900MHZ=y" >> .config
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_VLMCSD/d' .config              #配置KMS工具
-        echo "CONFIG_FIRMWARE_INCLUDE_VLMCSD=y" >> .config
-        sed -i '/CONFIG_FIRMWARE_INCLUDE_OPENSSH/d' .config             #配置OpenSSH
-        echo "CONFIG_FIRMWARE_INCLUDE_OPENSSH=y" >> .config
-        sed -i '/CONFIG_FIRMWARE_ENABLE_IPV6/d' .config                 #配置IPV6
-        echo "CONFIG_FIRMWARE_ENABLE_IPV6=y" >> .config
         #########################################################################################
-#        sudo ./clear_tree
+        sudo ./clear_tree
 #        sudo ./build_firmware_modify $TNAME 0
 #        sudo mv -f images/*.trx /opt/images/
-#    - name : Upload packages
-#      uses: actions/upload-artifact@master
-#      if: always()
-#      with:
-#        name: Padavan-packages
-#        path: /opt/images
+    - name : Upload packages
+      uses: actions/upload-artifact@master
+      if: always()
+      with:
+        name: Padavan-packages
+        path: /opt/images
